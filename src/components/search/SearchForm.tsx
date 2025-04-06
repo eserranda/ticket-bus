@@ -1,16 +1,17 @@
 "use client"
 import { useEffect } from "react";
-import { useSearchForm } from "./useSearchForm";
 import { Card } from "../ui/card";
 import { ArrowRightLeft, ArrowUpDown, BusFront, CalendarIcon } from "lucide-react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { formatInTimeZone } from "date-fns-tz";
 import { DayPicker } from "react-day-picker";
 import { id } from "date-fns/locale";
 import Image from "next/image";
 import { banner_3 } from "@/images";
+import 'react-day-picker/dist/style.css';
+import { useSearchForm } from "./useSearchForm";
 
 const cities = ["Makassar", "Toraja", "Palopo"]
 
@@ -33,11 +34,13 @@ const SearchForm = ({
         origin,
         destination,
         date,
-        open,
+        desktopPopoverOpen,
+        mobilePopoverOpen,
         setOrigin,
         setDestination,
         setDate,
-        setOpen,
+        setMobilePopoverOpen,
+        setDesktopPopoverOpen,
         handleSwap,
         handleSubmit,
         goToToday,
@@ -140,7 +143,8 @@ const SearchForm = ({
                             <label className="text-sm font-semibold mb-2 block text-gray-700">Tanggal</label>
                             <div className="relative">
                                 <CalendarIcon className="absolute top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-                                <Popover open={open} onOpenChange={setOpen}>
+                                {/* <Popover open={open} onOpenChange={setOpen}> */}
+                                <Popover open={mobilePopoverOpen} onOpenChange={setMobilePopoverOpen}>
                                     <PopoverTrigger asChild>
                                         <button
                                             type="button"
@@ -157,7 +161,7 @@ const SearchForm = ({
                                             selected={date}
                                             onSelect={(day) => {
                                                 setDate(day ?? new Date());
-                                                setOpen(false);
+                                                setMobilePopoverOpen(false);
                                             }}
                                             disabled={{ before: new Date() }}
                                             modifiersClassNames={{
@@ -272,7 +276,7 @@ const SearchForm = ({
                                 <label className="text-sm font-semibold mb-2 block text-gray-700">Tanggal</label>
                                 <div className="relative">
                                     <CalendarIcon className="absolute top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                                    <Popover open={open} onOpenChange={setOpen}>
+                                    <Popover open={desktopPopoverOpen} onOpenChange={setDesktopPopoverOpen}>
                                         <PopoverTrigger asChild>
                                             <button
                                                 type="button"
@@ -289,7 +293,7 @@ const SearchForm = ({
                                                 selected={date}
                                                 onSelect={(day) => {
                                                     setDate(day ?? new Date());
-                                                    setOpen(false);
+                                                    setDesktopPopoverOpen(false);
                                                 }}
                                                 disabled={{ before: new Date() }}
                                                 footer={

@@ -13,7 +13,8 @@ export const useSearchForm = (
     const [origin, setOrigin] = useState(initialOrigin.toLowerCase());
     const [destination, setDestination] = useState(initialDestination.toLowerCase());
     const [date, setDate] = useState(initialDate);
-    const [open, setOpen] = useState(false)
+    const [desktopPopoverOpen, setDesktopPopoverOpen] = useState(false)
+    const [mobilePopoverOpen, setMobilePopoverOpen] = useState(false);
 
     const router = useRouter()
     const timezone = process.env.TIMEZONE || 'Asia/Makassar';
@@ -62,11 +63,13 @@ export const useSearchForm = (
         origin,
         destination,
         date,
-        open,
+        mobilePopoverOpen,
+        desktopPopoverOpen,
         setOrigin,
         setDestination,
         setDate,
-        setOpen,
+        setMobilePopoverOpen,
+        setDesktopPopoverOpen,
         handleSwap,
         goToToday,
         goToTomorrow,
