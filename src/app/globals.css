@@ -137,6 +137,7 @@
     .hoverEffect {
         @apply transition-all duration-300 ease-in-out;
     }
+   
     button {
         @apply hover:cursor-pointer;
     }
@@ -145,3 +146,4 @@
 body {
     font-family: var(--font-poppins);
 }
+ 

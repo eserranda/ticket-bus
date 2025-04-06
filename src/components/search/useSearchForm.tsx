@@ -2,7 +2,11 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export const useSearchForm = () => {
+export const useSearchForm = (
+    initialOrigin: string = "",
+    initialDestination: string = "",
+    initialDate: Date = new Date()
+) => {
     const [origin, setOrigin] = useState("")
     const [destination, setDestination] = useState("")
     const [date, setDate] = useState<Date | undefined>(new Date())

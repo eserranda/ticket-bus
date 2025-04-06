@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from '../ui/card'
 import { ArrowUpDown, BusFront, BusIcon, CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
@@ -17,7 +17,17 @@ const cities = [
     "Palopo",
 ];
 
-const SearchFormMobile = () => {
+interface SearchFormMobileProps {
+    originProps?: string | null;
+    destinationProps?: string | null;
+    dateProps?: string | null;
+}
+
+const SearchFormMobile: React.FC<SearchFormMobileProps> = ({
+    originProps,
+    destinationProps,
+    dateProps,
+}) => {
     const {
         origin,
         destination,
@@ -31,7 +41,17 @@ const SearchFormMobile = () => {
         handleSubmit,
         goToToday,
         goToTomorrow,
-    } = useSearchForm()
+    } = useSearchForm(
+        originProps ?? "",
+        destinationProps ?? "",
+        dateProps ? new Date(dateProps) : new Date()
+    )
+
+    useEffect(() => {
+        if (originProps) setOrigin(originProps);
+        if (destinationProps) setDestination(destinationProps);
+        if (dateProps) setDate(new Date(dateProps));
+    }, [originProps, destinationProps, dateProps]);
 
     return (
         <Card className="rounded-sm p-5 w-full max-w-md mx-auto md:hidden">

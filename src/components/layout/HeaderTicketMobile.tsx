@@ -2,32 +2,40 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { id } from 'date-fns/locale'
+import { da, id } from 'date-fns/locale'
 import { ArrowLeft, CalendarIcon } from 'lucide-react'
 import MobileHeader from './MobileHeader'
 import { useSearchForm } from '../search/useSearchForm'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { DayPicker } from 'react-day-picker'
+import { Button } from '../ui/button'
+import { useEffect, useState } from 'react'
+import SearchFormMobile from '../search/SearchFormMobile'
+import TicketSearchForm from '../search/TicketSearchForm'
 
-const HeaderTicketMobile = () => {
+interface HeaderTicketMobileProps {
+    origin?: string | null;
+    destination?: string | null;
+    date?: string | null;
+    toggleFormVisibility: () => void;
+}
+
+const HeaderTicketMobile: React.FC<HeaderTicketMobileProps> = ({
+    toggleFormVisibility,
+    origin,
+    destination,
+    date,
+}) => {
     const params = useSearchParams()
     const router = useRouter()
 
-    const origin = params.get('origin')
-    const destination = params.get('destination')
-    const dateNow = params.get('date')
+    const originParam = origin || params.get('origin')
+    const destinationParam = destination || params.get('destination')
+    const dateParam = date || params.get('date')
 
-    const showSearchSummary = origin && destination && dateNow
 
-    const {
-        open,
-        date,
-        setDate,
-        setOpen,
-        goToToday,
-        goToTomorrow,
-    } = useSearchForm()
-
+    const showSearchSummary =
+        !!originParam && !!destinationParam && !!dateParam;
 
     return (
         <>
@@ -45,43 +53,28 @@ const HeaderTicketMobile = () => {
                         {/* Info rute */}
                         <div className="text-sm">
                             <div className="font-medium capitalize">
-                                {origin} → {destination}
+                                {originParam} → {destinationParam}
                             </div>
                             <div className="text-gray-500 text-xs">
-                                {format(new Date(dateNow), "EEEE, d MMMM yyyy", { locale: id })}
+                                {format(new Date(dateParam), "EEEE, d MMMM yyyy", { locale: id })}
                             </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                        {/* Tombol untuk memilih tanggal */}
-                        <Popover open={open} onOpenChange={setOpen}>
-                            <PopoverTrigger asChild>
-                                <button className="flex items-center gap-2 text-sm font-semibold text-gray-900 hoverEffect hover:cursor-pointer">
-                                    <CalendarIcon className="w-5 h-5" />
-                                    {date ? format(date, "d MMMM yyyy", { locale: id }) : "Pilih Tanggal"}
-                                </button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <DayPicker
-                                    mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
-                                    footer={
-                                        <div className='flex justify-between px-4 py-2'>
-                                            <button onClick={goToToday} className='text-sm font-semibold'>Hari ini</button>
-                                            <button onClick={goToTomorrow} className='text-sm font-semibold'>Besok</button>
-                                        </div>
-                                    }
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        {/* Tombol untuk menampilkan modal */}
+                        <Button
+                            variant="outline"
+                            onClick={toggleFormVisibility}
+                            className="text-dark rounded"
+                        >
+                            Ganti
+                        </Button>
                     </div>
 
                 </div>
             ) : (
                 <MobileHeader />
-            )
-            }
+            )}
         </>
     )
 }
