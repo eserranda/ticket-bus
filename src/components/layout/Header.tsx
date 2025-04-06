@@ -7,9 +7,8 @@ import CartIcon from './CartIcon'
 import FavoriteButton from './FavoriteButton'
 import SignIn from './SignIn'
 import HeaderTicketMobile from './HeaderTicketMobile'
-import SearchFormMobile from '../search/SearchFormMobile'
-import { Button } from '../ui/button'
 import { useSearchParams } from 'next/navigation'
+import SearchForm from '../search/SearchForm'
 
 const Header = () => {
     const [isFormVisible, setIsFormVisible] = useState(false)
@@ -19,9 +18,10 @@ const Header = () => {
     }
 
     const params = useSearchParams()
-    const origin = params.get('origin')
-    const destination = params.get('destination')
-    const date = params.get('date')
+
+    const origin = params.get("origin") ?? "";
+    const destination = params.get("destination") ?? "";
+    const date = params.get("date") ?? "";
 
     return (
         <>
@@ -31,9 +31,6 @@ const Header = () => {
                     <Container className="flex items-center justify-between text-lightColor py-1">
                         <HeaderTicketMobile
                             toggleFormVisibility={toggleFormVisibility}
-                            origin={origin}
-                            destination={destination}
-                            date={date}
                         />
                     </Container>
                 </div>
@@ -56,17 +53,18 @@ const Header = () => {
                         </div>
                     </Container>
                 </div>
-
             </header>
 
             {isFormVisible && (
                 <div
-                    className="fixed bottom-0 left-0 right-0 z-40 transform transition-all duration-300 ease-in-out bg-white px-4 rounded-t-lg shadow-lg overflow-y-auto py-4 env(safe-area-inset-bottom)"
+                    className="fixed bottom-0 left-0 right-0 z-40 transform transition-all duration-300 ease-in-out bg-shop_light_bg px-4 rounded-t-lg shadow-lg overflow-y-auto py-6 env(safe-area-inset-bottom)"
                 >
-                    <SearchFormMobile
-                        originProps={origin}
-                        destinationProps={destination}
-                        dateProps={date}
+                    <SearchForm
+                        origin={origin}
+                        destination={destination}
+                        date={date}
+                        isVisible={isFormVisible}
+                        toggleFormVisibility={toggleFormVisibility}
                     />
                 </div>
             )}

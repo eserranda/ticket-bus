@@ -1,4 +1,4 @@
-import { Clock, BusFront, Users } from 'lucide-react'
+import { Clock, Users } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 

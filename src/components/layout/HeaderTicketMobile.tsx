@@ -2,40 +2,23 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { da, id } from 'date-fns/locale'
-import { ArrowLeft, CalendarIcon } from 'lucide-react'
+import { id } from 'date-fns/locale'
+import { ArrowLeft } from 'lucide-react'
 import MobileHeader from './MobileHeader'
-import { useSearchForm } from '../search/useSearchForm'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { DayPicker } from 'react-day-picker'
 import { Button } from '../ui/button'
-import { useEffect, useState } from 'react'
-import SearchFormMobile from '../search/SearchFormMobile'
-import TicketSearchForm from '../search/TicketSearchForm'
 
-interface HeaderTicketMobileProps {
-    origin?: string | null;
-    destination?: string | null;
-    date?: string | null;
+const HeaderTicketMobile = ({ toggleFormVisibility }: {
     toggleFormVisibility: () => void;
-}
-
-const HeaderTicketMobile: React.FC<HeaderTicketMobileProps> = ({
-    toggleFormVisibility,
-    origin,
-    destination,
-    date,
 }) => {
     const params = useSearchParams()
     const router = useRouter()
 
-    const originParam = origin || params.get('origin')
-    const destinationParam = destination || params.get('destination')
-    const dateParam = date || params.get('date')
+    const origin = params.get("origin") ?? "";
+    const destination = params.get("destination") ?? "";
+    const date = params.get("date") ?? "";
 
 
-    const showSearchSummary =
-        !!originParam && !!destinationParam && !!dateParam;
+    const showSearchSummary = Boolean(origin && destination && date);
 
     return (
         <>
@@ -53,10 +36,10 @@ const HeaderTicketMobile: React.FC<HeaderTicketMobileProps> = ({
                         {/* Info rute */}
                         <div className="text-sm">
                             <div className="font-medium capitalize">
-                                {originParam} → {destinationParam}
+                                {origin} → {destination}
                             </div>
                             <div className="text-gray-500 text-xs">
-                                {format(new Date(dateParam), "EEEE, d MMMM yyyy", { locale: id })}
+                                {format(new Date(date), "EEEE, d MMMM yyyy", { locale: id })}
                             </div>
                         </div>
                     </div>
@@ -67,7 +50,7 @@ const HeaderTicketMobile: React.FC<HeaderTicketMobileProps> = ({
                             onClick={toggleFormVisibility}
                             className="text-dark rounded"
                         >
-                            Ganti
+                            Ubah
                         </Button>
                     </div>
 

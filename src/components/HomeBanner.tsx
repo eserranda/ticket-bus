@@ -1,7 +1,5 @@
 "use client"
 import React from 'react'
-import { Title } from './ui/text'
-import Link from 'next/link'
 import Image from 'next/image'
 import { banner_1 } from '@/images'
 

@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import TicketCard from './TicketCard'
 import { dummyTickets } from './ticket-data'
-import SearchFormMobile from '../search/SearchFormMobile'
 
 interface TicketListProps {
     origin: string
