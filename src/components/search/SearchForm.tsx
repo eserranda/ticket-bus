@@ -189,7 +189,7 @@ const SearchForm = ({
 
             {/* Desktop layout */}
             <div className="hidden md:block">
-                <div className="relative h-90 w-full bg-white rounded overflow-hidden">
+                <div className="relative h-90 w-full bg-shop_light_pink rounded overflow-hidden">
                     <Image
                         src={banner_3}
                         fill
